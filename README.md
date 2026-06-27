@@ -1,33 +1,31 @@
-# GANs for Face Generation
+# GANs for Image Generation
 
-A deep learning project that implements a **Generative Adversarial Network (GAN)** using **PyTorch** to generate realistic human face images. The model is trained on the **CelebA** dataset and learns to synthesize high-quality 64×64 RGB face images from random latent vectors.
+A PyTorch implementation of a **Generative Adversarial Network (GAN)** for generating realistic celebrity face images. The model is trained on the **50k Celebrity Faces Image Dataset** from Kaggle using the Deep Convolutional GAN (DCGAN) architecture.
 
 ---
 
-## Overview
+## Features
 
-This project demonstrates the implementation of a **Deep Convolutional Generative Adversarial Network (DCGAN)** for realistic face generation.
-
-The model consists of two competing neural networks:
-
-* **Generator:** Generates realistic face images from random noise.
-* **Discriminator:** Distinguishes between real and generated images.
-
-Through adversarial training, the Generator progressively improves until it produces realistic faces capable of fooling the Discriminator.
+* Deep Convolutional GAN (DCGAN) implementation
+* Trained on the 50k Celebrity Faces dataset
+* Automatic image preprocessing and normalization
+* GPU acceleration (CUDA support)
+* Model checkpoint saving
+* Best model tracking
+* Generated image visualization after each training epoch
 
 ---
 
 ## Dataset
 
-* **Dataset:** 50K Celebrity Faces Image Dataset
-* **Source:** Kaggle
-* **Total Images:** 50,000
-* **Image Resolution:** 64 × 64 RGB
-* **Preprocessing:**
+**Dataset:** 50k Celebrity Faces Image Dataset (Kaggle)
 
-  * Resize to 64×64
-  * Center Crop
-  * Normalize images to the range [-1, 1]
+### Preprocessing
+
+* Resize images to **64 × 64**
+* Center crop
+* Convert to tensors
+* Normalize to **[-1, 1]**
 
 ---
 
@@ -35,55 +33,69 @@ Through adversarial training, the Generator progressively improves until it prod
 
 ### Generator
 
-* Input: 100-dimensional latent vector
+Transforms a 100-dimensional latent vector into a 64×64 RGB image using:
+
 * ConvTranspose2D layers
 * Batch Normalization
-* ReLU activations
+* ReLU activation
 * Tanh output activation
 
 ### Discriminator
 
-* Input: 64×64 RGB image
+Classifies images as **Real** or **Fake** using:
+
 * Convolutional layers
 * Batch Normalization
-* LeakyReLU activations
-* Sigmoid output for binary classification
+* LeakyReLU activation
+* Sigmoid output layer
 
 ---
 
 ## Training Configuration
 
-| Parameter          |                          Value |
-| ------------------ | -----------------------------: |
-| Framework          |                        PyTorch |
-| Epochs             |                            150 |
-| Batch Size         |                            128 |
-| Learning Rate      |                         0.0002 |
-| Optimizer          |                           Adam |
-| Loss Function      | Binary Cross Entropy (BCELoss) |
-| Latent Vector Size |                            100 |
+| Parameter        | Value                          |
+| ---------------- | ------------------------------ |
+| Epochs           | 150                            |
+| Batch Size       | 128                            |
+| Latent Dimension | 100                            |
+| Learning Rate    | 0.0002                         |
+| Optimizer        | Adam                           |
+| β1               | 0.5                            |
+| β2               | 0.999                          |
+| Loss Function    | Binary Cross Entropy (BCELoss) |
 
 ---
 
-## Features
+## Training Pipeline
 
-* Deep Convolutional GAN (DCGAN) implementation
-* Automatic CelebA dataset download
-* GPU acceleration with CUDA support
-* Generator and Discriminator checkpoint saving
-* Generated image visualization after each epoch
-* Modular and easy-to-understand PyTorch implementation
+1. Load and preprocess the dataset.
+2. Train the **Discriminator** using real and generated images.
+3. Train the **Generator** to fool the Discriminator.
+4. Save checkpoints and generated samples after each epoch.
+
+---
+
+## Output Files
+
+* `generated_epoch_X.png` – Generated samples after each epoch
+* `gan_checkpoint.pth` – Training checkpoint
+* `best_generator.pth` – Best Generator model
+
+---
+
+## Technologies Used
+
+* Python
+* PyTorch
+* TorchVision
+* KaggleHub
+* Matplotlib
+* tqdm
 
 ---
 
 ## Results
 
-The Generator gradually learns to transform random noise into realistic human face images.
+After training, the Generator progressively learns to synthesize realistic celebrity face images from random noise. Image quality improves over successive epochs as the adversarial training converges.
 
-The notebook includes:
-
-* Generator and Discriminator loss curves
-* Generated face samples during training
-* Saved model checkpoints
-* Epoch-wise visualization of generated images
-
+---
